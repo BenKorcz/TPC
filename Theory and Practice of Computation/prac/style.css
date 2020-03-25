@@ -1,0 +1,28 @@
+PRE {
+    margin-left: 10pt;
+}
+
+.solution {
+    font-family: Sans-serif;
+    font-style: italic;
+    border-width: thin;
+    border-style: solid;
+    padding: 5pt;
+    margin-left: 10pt;
+    margin-top: 5pt;
+    margin-bottom: 5pt;
+    width: 90%;
+}
+
+.solution PRE {
+    font-family: Monospace;
+    font-size: small;
+    padding: 0pt;
+    margin-top: 0pt;
+    margin-bottom: 0pt;
+}
+
+.unreleased {
+    font-style: italic;
+    color: #C0C0C0;
+}
