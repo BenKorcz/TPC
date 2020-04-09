@@ -5,7 +5,7 @@ import java.util.Arrays;
 class quickSortArray{
     public static int[] tempArray;
     Random random;
-    public static final int RANDOM_NUMS = 10;
+    public static final int RANDOM_NUMS = 100000;
     
     public quickSortArray(){
         tempArray = new int[10];
@@ -68,9 +68,15 @@ class quickSortArray{
         }
     }
     static public void main(String args[]){
-        quickSortArray newArray = new quickSortArray(10);
-        newArray.printArray();
+        quickSortArray newArray = new quickSortArray(100000);
+
+        long startTime = System.nanoTime();
         newArray.sort(newArray.tempArray, 0, (newArray.tempArray.length-1));
-        newArray.printArray();
+        long endTime = System.nanoTime();
+        // newArray.printArray();
+
+        long timeElapsed = endTime - startTime;
+        long timeElapsedMilli = timeElapsed/1000000;
+        System.out.println("Time taken to sort: " + timeElapsedMilli + "ms");
     }
 };
