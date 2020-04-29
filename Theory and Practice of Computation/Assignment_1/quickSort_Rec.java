@@ -2,21 +2,21 @@ import java.io.*;
 import java.util.Random;
 import java.util.Arrays;
 
-class quickSortArray{
+class quickSort_Rec{
     public static int[] tempArray;
     Random random;
-    public static final int RANDOM_NUMS = 100000;
+    public static final int RANDOM_NUMS = 10;
     
-    public quickSortArray(){
+    public quickSort_Rec(){
         tempArray = new int[10];
         random = new Random();
-        fill();
+        fill(10);
     }
 
-    public quickSortArray(int size){
+    public quickSort_Rec(int size){
         tempArray = new int[size];
         random = new Random();
-        fill();
+        fill(size);
     }
 
     private void printArray(){
@@ -26,11 +26,20 @@ class quickSortArray{
     private void sort(int arr[], int low, int high){
         int part_ind = part(arr,low,high);
 
-        if(low < part_ind-1){
-            sort(arr,low,part_ind-1);
-        }
-        if(part_ind < high){
-            sort(arr,part_ind,high);
+        if((part_ind-low) < (high-part_ind)){
+            if(low < part_ind-1){
+                sort(arr,low,part_ind-1);
+            }
+            if(part_ind < high){
+                sort(arr,part_ind,high);
+            }
+        }else{
+            if(part_ind < high){
+                sort(arr,part_ind,high);
+            }
+            if(low < part_ind-1){
+                sort(arr,low,part_ind-1);
+            }
         }
     }
 
@@ -38,7 +47,7 @@ class quickSortArray{
         int i = low;
         int j = high;
 
-        int piv_element = random.nextInt(high-low) + low;
+        int piv_element = ((low+high)/2);
         int pivot = arr[piv_element];
 
         while(i <= j){
@@ -60,15 +69,17 @@ class quickSortArray{
         return i;
     }
 
-    void fill(){
+    void fill(int numbers){
         Random random = new Random();
         for(int i=0;i<tempArray.length;i++){
             
-            tempArray[i] = random.nextInt(RANDOM_NUMS);
+            tempArray[i] = random.nextInt(numbers);
         }
     }
     static public void main(String args[]){
-        quickSortArray newArray = new quickSortArray(100000);
+
+        quickSort_Rec newArray = new quickSort_Rec(10);
+        // newArray.printArray();
 
         long startTime = System.nanoTime();
         newArray.sort(newArray.tempArray, 0, (newArray.tempArray.length-1));
@@ -76,7 +87,6 @@ class quickSortArray{
         // newArray.printArray();
 
         long timeElapsed = endTime - startTime;
-        long timeElapsedMilli = timeElapsed/1000000;
-        System.out.println("Time taken to sort: " + timeElapsedMilli + "ms");
+        System.out.println("Time taken to sort: " + timeElapsed + "ns");
     }
 };
