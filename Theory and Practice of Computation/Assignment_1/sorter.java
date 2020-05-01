@@ -8,11 +8,71 @@ public class sorter{
     private static int[] unsortedArray; //Use a static array to hold all of the arrays that are sorted to conserve the memory
     private static int[] copyOf; //A copy array is also held in static memory
     private static int[] copyOf_2;
-
+    
     static public void main(String args[]){
-        // int[] unsortedArray = new int[]{9,9,9,8,7,6,5,3,2,0};
-        // int[] unsortedArray = new int[]{0,0,0,0,0,0,0,0,0,0};
-        // int[] unsortedArray = new int[]{1,2,3,4,5,5,6,7,8,9};
+        testingSuit();
+    }
+
+    /*
+    Helper function to check if the array has been sorted
+    Returns false if a number is ever bigger than the next number in the array.
+    */
+    private static boolean isSorted(int[] toBeChecked){
+        for(int i=0;i<toBeChecked.length-1;i++){
+            if(toBeChecked[i] > toBeChecked[i+1]){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /*
+    The testing function to run the various tests
+    */
+    private static void testingSuit(){
+        /*
+        A series of test examples to check the output:
+        an empty array is checked to make sure the program can handle it
+        an array filled with all the same element
+        an array in reverse order
+        a pre-sorted array
+        a standard sorting case
+        sorting the max value for an integer and and the min value for an integer in reverse order to ensure the program can handle them
+        */
+        int[] Example1 = new int[]{};
+        int[] Example2 = new int[]{1};
+        int[] Example3 = new int[]{0,0,0,0,0,0,0,0,0,0};
+        int[] Example4 = new int[]{9,9,9,8,7,6,5,3,2,0};
+        int[] Example5 = new int[]{1,2,3,4,5,5,6,7,8,9};
+        int[] Example6 = new int[]{6,2,5,1,7,3,8,0,5,2};
+        int[] Example7 = new int[]{Integer.MAX_VALUE, Integer.MIN_VALUE};
+        
+        System.out.println("Test Cases: ");
+        printArray(Example1);
+        printArray(Example2);
+        printArray(Example3);
+        printArray(Example4);
+        printArray(Example5);
+        printArray(Example6);
+        printArray(Example7);
+
+        //Sorted using the iterative sort for ease of function and speed
+        iter_sort(Example1);
+        iter_sort(Example2);
+        iter_sort(Example3);
+        iter_sort(Example4);
+        iter_sort(Example5);
+        iter_sort(Example6);
+        iter_sort(Example7);
+
+        System.out.println("After sorting the arrays are now: ");
+        printArray(Example1);
+        printArray(Example2);
+        printArray(Example3);
+        printArray(Example4);
+        printArray(Example5);
+        printArray(Example6);
+        printArray(Example7);
 
 
         int[] printingUnsorted = fill(new int[10], 10);
@@ -36,29 +96,18 @@ public class sorter{
             System.out.println("The arrays were not sorted properly.");
         }
 
-        tester(10);
-        tester(100);
-        tester(1000);
-        tester(10000);
-        tester(100000);
-        tester(1000000);
-
+        time_tester(10);
+        time_tester(100);
+        time_tester(1000);
+        time_tester(10000);
+        time_tester(100000);
+        time_tester(1000000);
     }
-
+    
     /*
-    Helper function to check if the array has been sorted
-    Returns false if a number is ever bigger than the next number in the array.
+    Tester function, the size will dictate how elements the array will have. The unsorted array is filled with random numbers.
     */
-    private static boolean isSorted(int[] toBeChecked){
-        for(int i=0;i<toBeChecked.length-1;i++){
-            if(toBeChecked[i] > toBeChecked[i+1]){
-                return false;
-            }
-        }
-        return true;
-    }
-    //Tester function, the size will dictate how elements the array will have. The unsorted array is filled with random numbers.
-    private static void tester(int size){
+    private static void time_tester(int size){
         int times_to_run = 1000000/size;
         double runs = times_to_run/1.0;
         long runningTotal_iter=0, runningTotal_rec=0, runningTotal_builtIn=0;
@@ -118,6 +167,12 @@ public class sorter{
     the transition between the Stack and an array solution.
     */
     private static void iter_sort(int[] arr){
+        
+        //Check for fringe case of 0 length
+        if(!(arr.length>0)){
+            System.out.println("The array being sorted had 0 length!");
+            return;
+        }
         //Assign a new int array that will hold the pairs for the partition, the stack has been given a size of 64 elements
         //This is enough to store 32 pairs (end,start) to tell the algorithm which part to sort next
         //32 pairs would mean there would be 32 times the program has halved the array, this is 2^32 elements, since the maximum number of elements we are testing is 1000000
