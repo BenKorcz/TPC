@@ -23,50 +23,60 @@ class quickSort_Rec{
         System.out.println(Arrays.toString(tempArray));
     }
 
-    private void sort(int arr[], int low, int high){
-        int part_ind = part(arr,low,high);
+    private void rec_sort(int arr[], int start, int end){
+        int pivot_value = part(arr,start,end);
 
-        if((part_ind-low) < (high-part_ind)){
-            if(low < part_ind-1){
-                sort(arr,low,part_ind-1);
+        if((pivot_value-start) < (end-pivot_value)){
+            if(start < pivot_value-1){
+                sort(arr,start,pivot_value-1);
             }
-            if(part_ind < high){
-                sort(arr,part_ind,high);
+            if(pivot_value+1 < end){
+                sort(arr,pivot_value+1,end);
             }
         }else{
-            if(part_ind < high){
-                sort(arr,part_ind,high);
+            if(pivot_value+1 < end){
+                sort(arr,pivot_value+1,end);
             }
-            if(low < part_ind-1){
-                sort(arr,low,part_ind-1);
+            if(start < pivot_value-1){
+                sort(arr,start,pivot_value-1);
             }
         }
     }
 
-    private int part(int arr[], int low, int high){
-        int i = low;
-        int j = high;
+    private int part(int arr[], int left, int right){
+        int i = left;
+        int j = right;
 
-        int piv_element = ((low+high)/2);
-        int pivot = arr[piv_element];
+        int piv_element = ((left+right)/2);
+        swapper(arr, left, piv_element);
+        int pivot = arr[left];
+        i++;
 
         while(i <= j){
-            while(arr[i] < pivot){
+            while(arr[i]<=pivot){
                 i++;
+                if(i>(arr.length-1)){
+                    break;
+                }
             }
-            while(arr[j] > pivot){
+            while(arr[j]>=pivot){
                 j--;
+                if(j<=left){
+                    break;
+                }
             }
-            if(i <= j){
-                int temp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = temp;
+            if(i < j){
+                swapper(arr,i,j);
                 i++;
                 j--;
             }
         }
 
-        return i;
+        if(arr[j]<pivot){
+            swapper(arr, j, left);
+            left = j;
+        }
+        return left;
     }
 
     void fill(int numbers){
@@ -76,6 +86,13 @@ class quickSort_Rec{
             tempArray[i] = random.nextInt(numbers);
         }
     }
+
+    private static void swapper(int[] arr, int a, int b){
+        int temp = arr[a];
+        arr[a] = arr[b];
+        arr[b] = temp;
+    }
+
     static public void main(String args[]){
 
         quickSort_Rec newArray = new quickSort_Rec(10);
